@@ -1,75 +1,91 @@
-# CBM Leads Intelligence Platform
+# CLAUDE.md
 
-## Project Structure
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-```
-cbm-data/
-├── overview.md          # Project documentation and architecture
-├── schema.sql           # PostgreSQL database schema (Supabase)
-├── CLAUDE.md            # This file - development guide
-└── cbm-dashboard/       # React analytics dashboard (Cloudflare Pages)
-```
+## Project Overview
 
-## Dashboard Deployment
+CBM Leads Intelligence Platform - a data aggregation system for Circuit Board Medics to analyze repair request leads from multiple sources (phone, form, chat, scrape, manual). The platform normalizes unstructured data, identifies service gaps, and provides analytics.
 
-The analytics dashboard is deployed to Cloudflare Pages.
+## Commands
 
-### Prerequisites
-
-- Node.js 18+
-- Cloudflare account with Wrangler CLI authenticated (`wrangler login`)
-
-### Development
-
+### Dashboard Development
 ```bash
 cd cbm-dashboard
-npm install
-npm run dev
+npm install        # Install dependencies
+npm run dev        # Start dev server at http://localhost:5173
+npm run build      # Build for production (tsc + vite)
+npm run lint       # ESLint check
+npm run preview    # Preview production build
 ```
-
-Opens at http://localhost:5173
-
-### Build
-
-```bash
-cd cbm-dashboard
-npm run build
-```
-
-Output goes to `cbm-dashboard/dist/`
 
 ### Deploy to Cloudflare Pages
-
 ```bash
 cd cbm-dashboard
 npm run build
 npx wrangler pages deploy dist --project-name cbm-dashboard
 ```
+Production URL: https://cbm-dashboard.pages.dev
 
-**Production URL**: https://cbm-dashboard.pages.dev
+## Architecture
 
-### Tech Stack
+### Overall Structure
+- `overview.md` - Full project specification with system architecture diagrams
+- `schema.sql` - PostgreSQL schema for Supabase (enum types + leads table with indexes)
+- `cbm-dashboard/` - React analytics dashboard
 
-- **Framework**: React + Vite + TypeScript
-- **Styling**: Tailwind CSS v4 + shadcn/ui components
-- **Charts**: Apache ECharts (echarts-for-react, echarts-wordcloud)
-- **Routing**: React Router
-- **Hosting**: Cloudflare Pages
+### Dashboard Architecture (cbm-dashboard/)
 
-### Dashboard Views
+**Tech Stack**: React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui + Apache ECharts
 
-| Route | Description |
-|-------|-------------|
-| `/` | Dashboard overview with metrics and charts |
-| `/heatmap` | Heatmap visualizations (Make×Part, Source×Month, Category×Customer) |
-| `/wordcloud` | Word cloud visualizations (Symptoms, Makes, Part Types) |
-| `/analytics/source` | Leads breakdown by source |
-| `/analytics/category` | Leads breakdown by category |
-| `/analytics/customers` | Customer type analysis |
-| `/analytics/products` | Top makes and part types |
-| `/trends` | Time-based trend analysis |
-| `/gaps` | Service gap opportunities (we_offer_this = false) |
+**Key Directories**:
+- `src/pages/` - Route components (Dashboard, HeatmapView, etc.)
+- `src/components/charts/` - ECharts wrappers (BaseChart provides theming, specialized charts extend it)
+- `src/components/ui/` - shadcn/ui primitives (card, badge, tabs, etc.)
+- `src/components/layout/` - MainLayout with Sidebar and Header
+- `src/data/mockLeads.ts` - Mock data generator (520 leads matching schema.sql structure)
+- `src/types/lead.ts` - TypeScript types mirroring the database schema
+- `src/constants/colors.ts` - Color palettes for categories, sources, customer types + chartTheme
 
-### Mock Data
+**Chart System**: All charts use `BaseChart` component which wraps `echarts-for-react` with consistent theming. Specific chart types (BarChart, LineChart, DonutChart, HeatmapChart, WordCloudChart) provide typed props for their use cases.
 
-The dashboard uses 520 generated mock leads based on the schema.sql structure. Data is generated in `src/data/mockLeads.ts`.
+**Data Flow**: Mock data is generated in `mockLeads.ts` with helper functions for aggregations (getLeadsBySource, getTopMakes, getHeatmapData, etc.). Pages import these helpers to get data for charts.
+
+**Path Aliases**: Uses `@/` alias mapped to `src/` (configured in vite.config.ts and tsconfig.json)
+
+### Data Model (schema.sql)
+
+**Enum Types**:
+- `lead_category`: automotive, appliance, industrial, marine
+- `lead_source`: phone, form, chat, scrape, manual
+- `customer_type`: individual, shop, dealer, fleet
+- `confidence_level`: high, medium, low
+
+**Leads Table Fields**:
+| Field | Type | Description |
+|-------|------|-------------|
+| id | UUID | Primary key (auto-generated) |
+| source | lead_source | Data source (required) |
+| date | DATE | When lead was received |
+| category | lead_category | High-level grouping |
+| year | INTEGER | Vehicle/appliance year (1900-2100) |
+| make | TEXT | Manufacturer (Ford, Whirlpool, etc.) |
+| model | TEXT | Specific model |
+| part_type | TEXT | Component type (PCM, TCM, control_board, etc.) |
+| part_number | TEXT | OEM part number |
+| text | TEXT | Original unprocessed text |
+| symptoms | TEXT | Problem description |
+| customer_type | customer_type | B2B vs B2C (default: individual) |
+| quantity | INTEGER | Number of units (default: 1) |
+| we_offer_this | BOOLEAN | Do we repair this? (false = gap opportunity) |
+| confidence | confidence_level | Extraction confidence (default: medium) |
+| created_at | TIMESTAMPTZ | Record creation timestamp |
+
+**Indexes**: date (DESC), category, make, part_type, we_offer_this, composite (make, model, part_type)
+
+### Future Backend (Supabase)
+
+The `overview.md` describes planned Edge Functions:
+- `extract-lead` - Claude API for entity extraction from unstructured text
+- `import-form` - Form submission webhook
+- `enrich-part` - Part number lookup (automotive OEM patterns, appliance model prefixes)
+- `chat` - Conversational interface with tool use (query_leads, get_top_products, get_trends, get_opportunities)
