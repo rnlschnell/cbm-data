@@ -9,6 +9,7 @@ import { CustomerAnalysis } from '@/pages/CustomerAnalysis'
 import { TopProducts } from '@/pages/TopProducts'
 import { Trends } from '@/pages/Trends'
 import { ServiceGaps } from '@/pages/ServiceGaps'
+import { AddLead } from '@/pages/AddLead'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/add" element={<AddLead />} />
           <Route path="/heatmap" element={<HeatmapView />} />
           <Route path="/wordcloud" element={<WordCloudView />} />
           <Route path="/analytics/source" element={<AnalyticsBySource />} />

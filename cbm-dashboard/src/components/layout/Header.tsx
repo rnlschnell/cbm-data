@@ -1,4 +1,5 @@
-import { Cpu, Zap } from 'lucide-react'
+import { Cpu, Zap, Plus } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export function Header() {
   return (
@@ -25,6 +26,13 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <Link
+            to="/add"
+            className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2 text-sm font-medium text-black shadow-lg shadow-amber-500/20 transition-all hover:shadow-amber-500/40 hover:brightness-110"
+          >
+            <Plus className="h-4 w-4" />
+            <span className="hidden sm:inline">Add New</span>
+          </Link>
           <div className="hidden items-center gap-2 rounded-full bg-secondary/50 px-4 py-2 md:flex">
             <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
             <span className="text-xs text-muted-foreground">Live Data Sync</span>
