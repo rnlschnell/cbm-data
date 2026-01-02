@@ -29,35 +29,35 @@ export const confidenceColors: Record<string, string> = {
 export const chartTheme = {
   backgroundColor: 'transparent',
   textStyle: {
-    color: '#a3a3a3',
+    color: '#525252',
     fontFamily: 'JetBrains Mono, monospace',
   },
   title: {
     textStyle: {
-      color: '#e5e5e5',
+      color: '#262626',
       fontFamily: 'Archivo Black, sans-serif',
     },
   },
   legend: {
     textStyle: {
-      color: '#a3a3a3',
+      color: '#525252',
     },
   },
   tooltip: {
-    backgroundColor: 'rgba(23, 23, 23, 0.95)',
-    borderColor: 'rgba(64, 64, 64, 0.8)',
+    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+    borderColor: 'rgba(229, 229, 229, 1)',
     textStyle: {
-      color: '#e5e5e5',
+      color: '#262626',
     },
   },
   axisLine: {
     lineStyle: {
-      color: 'rgba(64, 64, 64, 0.6)',
+      color: 'rgba(229, 229, 229, 1)',
     },
   },
   splitLine: {
     lineStyle: {
-      color: 'rgba(64, 64, 64, 0.3)',
+      color: 'rgba(229, 229, 229, 0.6)',
     },
   },
 }

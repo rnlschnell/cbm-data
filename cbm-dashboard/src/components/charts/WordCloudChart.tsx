@@ -18,16 +18,16 @@ export function WordCloudChart({ data, height = 400 }: WordCloudChartProps) {
       chartInstance.current = echarts.init(chartRef.current)
     }
 
-    const colors = ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316']
+    const colors = ['#006a34', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4', '#0d9488']
 
     const option = {
       backgroundColor: 'transparent',
       tooltip: {
         show: true,
-        backgroundColor: 'rgba(23, 23, 23, 0.95)',
-        borderColor: 'rgba(64, 64, 64, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(229, 229, 229, 1)',
         textStyle: {
-          color: '#e5e5e5',
+          color: '#262626',
         },
         formatter: (params: { name: string; value: number }) => {
           return `${params.name}: ${params.value}`
@@ -55,7 +55,7 @@ export function WordCloudChart({ data, height = 400 }: WordCloudChartProps) {
           emphasis: {
             textStyle: {
               textShadowBlur: 10,
-              textShadowColor: 'rgba(245, 158, 11, 0.5)',
+              textShadowColor: 'rgba(0, 106, 52, 0.5)',
             },
           },
           data: data.slice(0, 80),

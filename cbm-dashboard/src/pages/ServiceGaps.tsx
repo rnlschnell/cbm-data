@@ -53,10 +53,10 @@ export function ServiceGaps() {
         description="Identify opportunities - products customers request that you don't currently offer"
       />
 
-      <div className="mb-6 flex items-center gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
-        <AlertTriangle className="h-5 w-5 text-amber-400" />
+      <div className="mb-6 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/10 p-4">
+        <AlertTriangle className="h-5 w-5 text-primary" />
         <div>
-          <p className="font-medium text-amber-400">
+          <p className="font-medium text-primary">
             {totalGaps} leads identified as service gaps
           </p>
           <p className="text-sm text-muted-foreground">
@@ -115,7 +115,7 @@ export function ServiceGaps() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge variant="outline">{gap.count} requests</Badge>
-                    <span className="text-sm font-medium text-emerald-400">
+                    <span className="text-sm font-medium text-primary">
                       ${gap.count * 150} potential
                     </span>
                   </div>

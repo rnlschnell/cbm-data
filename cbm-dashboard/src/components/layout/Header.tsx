@@ -7,8 +7,8 @@ export function Header() {
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-500/20">
-              <Cpu className="h-5 w-5 text-black" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-lg shadow-primary/20">
+              <Cpu className="h-5 w-5 text-white" />
             </div>
             <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500">
               <Zap className="h-2.5 w-2.5 text-black" />
@@ -28,7 +28,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <Link
             to="/add"
-            className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-2 text-sm font-medium text-black shadow-lg shadow-amber-500/20 transition-all hover:shadow-amber-500/40 hover:brightness-110"
+            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 hover:brightness-110"
           >
             <Plus className="h-4 w-4" />
             <span className="hidden sm:inline">Add New</span>

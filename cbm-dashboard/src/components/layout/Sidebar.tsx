@@ -44,7 +44,7 @@ export function Sidebar() {
                 cn(
                   'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-primary/10 text-primary glow-amber'
+                    ? 'bg-primary/10 text-primary'
                     : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                 )
               }
@@ -69,7 +69,7 @@ export function Sidebar() {
                 cn(
                   'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-primary/10 text-primary glow-amber'
+                    ? 'bg-primary/10 text-primary'
                     : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                 )
               }

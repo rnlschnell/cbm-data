@@ -39,21 +39,21 @@ export function HeatmapChart({ data, xLabels, yLabels, height = 400 }: HeatmapCh
       data: xLabels,
       splitArea: { show: true },
       axisLabel: {
-        color: '#a3a3a3',
+        color: '#525252',
         rotate: 45,
         fontSize: 10,
       },
-      axisLine: { lineStyle: { color: 'rgba(64, 64, 64, 0.6)' } },
+      axisLine: { lineStyle: { color: 'rgba(229, 229, 229, 1)' } },
     },
     yAxis: {
       type: 'category',
       data: yLabels,
       splitArea: { show: true },
       axisLabel: {
-        color: '#a3a3a3',
+        color: '#525252',
         fontSize: 11,
       },
-      axisLine: { lineStyle: { color: 'rgba(64, 64, 64, 0.6)' } },
+      axisLine: { lineStyle: { color: 'rgba(229, 229, 229, 1)' } },
     },
     visualMap: {
       min: 0,
@@ -63,10 +63,10 @@ export function HeatmapChart({ data, xLabels, yLabels, height = 400 }: HeatmapCh
       right: '2%',
       top: 'center',
       inRange: {
-        color: ['#1a1a2e', '#16213e', '#0f3460', '#e94560', '#ff6b6b'],
+        color: ['#f0fdf4', '#bbf7d0', '#4ade80', '#16a34a', '#006a34'],
       },
       textStyle: {
-        color: '#a3a3a3',
+        color: '#525252',
       },
     },
     series: [
@@ -75,7 +75,7 @@ export function HeatmapChart({ data, xLabels, yLabels, height = 400 }: HeatmapCh
         data: heatmapData,
         label: {
           show: true,
-          color: '#fff',
+          color: '#262626',
           fontSize: 10,
           formatter: (params: unknown) => {
             const p = params as { data: number[] }
@@ -85,11 +85,11 @@ export function HeatmapChart({ data, xLabels, yLabels, height = 400 }: HeatmapCh
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
-            shadowColor: 'rgba(245, 158, 11, 0.5)',
+            shadowColor: 'rgba(0, 106, 52, 0.5)',
           },
         },
         itemStyle: {
-          borderColor: '#1a1a1a',
+          borderColor: '#ffffff',
           borderWidth: 1,
         },
       },

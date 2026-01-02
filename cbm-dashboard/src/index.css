@@ -2,25 +2,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: hsl(12 10% 6%);
-  --color-foreground: hsl(40 15% 90%);
-  --color-card: hsl(15 12% 9%);
-  --color-card-foreground: hsl(40 15% 90%);
-  --color-popover: hsl(15 12% 9%);
-  --color-popover-foreground: hsl(40 15% 90%);
-  --color-primary: hsl(38 92% 50%);
-  --color-primary-foreground: hsl(12 10% 6%);
-  --color-secondary: hsl(15 12% 15%);
-  --color-secondary-foreground: hsl(40 15% 90%);
-  --color-muted: hsl(15 10% 18%);
-  --color-muted-foreground: hsl(40 10% 55%);
-  --color-accent: hsl(38 92% 50%);
-  --color-accent-foreground: hsl(12 10% 6%);
+  --color-background: hsl(0 0% 98%);
+  --color-foreground: hsl(0 0% 15%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(0 0% 15%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(0 0% 15%);
+  --color-primary: hsl(153 100% 21%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(0 0% 96%);
+  --color-secondary-foreground: hsl(0 0% 15%);
+  --color-muted: hsl(0 0% 96%);
+  --color-muted-foreground: hsl(0 0% 45%);
+  --color-accent: hsl(153 100% 21%);
+  --color-accent-foreground: hsl(0 0% 100%);
   --color-destructive: hsl(0 84% 60%);
-  --color-destructive-foreground: hsl(40 15% 90%);
-  --color-border: hsl(15 12% 18%);
-  --color-input: hsl(15 12% 18%);
-  --color-ring: hsl(38 92% 50%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(0 0% 90%);
+  --color-input: hsl(0 0% 90%);
+  --color-ring: hsl(153 100% 21%);
 
   --color-automotive: #3b82f6;
   --color-appliance: #10b981;
@@ -50,8 +50,8 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.6); }
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 106, 52, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(0, 106, 52, 0.4); }
   }
 }
 
@@ -66,9 +66,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(245, 158, 11, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-    linear-gradient(180deg, hsl(12 10% 6%) 0%, hsl(12 10% 4%) 100%);
+    radial-gradient(ellipse at 20% 20%, rgba(0, 106, 52, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
   min-height: 100vh;
 }
 
@@ -78,46 +77,46 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(15 12% 9%);
+  background: hsl(0 0% 96%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(15 12% 25%);
+  background: hsl(0 0% 80%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(38 92% 50%);
+  background: hsl(153 100% 21%);
 }
 
 @utility gradient-text {
-  background-image: linear-gradient(to right, #fbbf24, #f97316, #fbbf24);
+  background-image: linear-gradient(to right, #006a34, #00a650, #006a34);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility glow-amber {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 20px rgba(0, 106, 52, 0.2);
 }
 
 @utility glow-blue {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
 }
 
 @utility card-shine {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.03) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(255, 255, 255, 0.02) 100%
+    rgba(0, 0, 0, 0.01) 0%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.01) 100%
   );
 }
 
 @utility grid-pattern {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 

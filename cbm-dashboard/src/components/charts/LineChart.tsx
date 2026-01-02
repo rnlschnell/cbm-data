@@ -22,7 +22,7 @@ export function LineChart({
       axisPointer: {
         type: 'cross',
         crossStyle: {
-          color: '#f59e0b',
+          color: '#006a34',
         },
       },
     },
@@ -35,18 +35,18 @@ export function LineChart({
     xAxis: {
       type: 'category',
       data: data.map((d) => d.date),
-      axisLine: { lineStyle: { color: 'rgba(64, 64, 64, 0.6)' } },
+      axisLine: { lineStyle: { color: 'rgba(229, 229, 229, 1)' } },
       axisLabel: {
-        color: '#737373',
+        color: '#525252',
         rotate: 45,
         fontSize: 10,
       },
     },
     yAxis: {
       type: 'value',
-      axisLine: { lineStyle: { color: 'rgba(64, 64, 64, 0.6)' } },
-      splitLine: { lineStyle: { color: 'rgba(64, 64, 64, 0.2)' } },
-      axisLabel: { color: '#737373' },
+      axisLine: { lineStyle: { color: 'rgba(229, 229, 229, 1)' } },
+      splitLine: { lineStyle: { color: 'rgba(229, 229, 229, 0.6)' } },
+      axisLabel: { color: '#525252' },
     },
     series: [
       {
@@ -56,11 +56,11 @@ export function LineChart({
         symbol: showDots ? 'circle' : 'none',
         symbolSize: 6,
         lineStyle: {
-          color: '#f59e0b',
+          color: '#006a34',
           width: 3,
         },
         itemStyle: {
-          color: '#f59e0b',
+          color: '#006a34',
         },
         areaStyle: areaFill
           ? {
@@ -71,8 +71,8 @@ export function LineChart({
                 x2: 0,
                 y2: 1,
                 colorStops: [
-                  { offset: 0, color: 'rgba(245, 158, 11, 0.4)' },
-                  { offset: 1, color: 'rgba(245, 158, 11, 0.02)' },
+                  { offset: 0, color: 'rgba(0, 106, 52, 0.3)' },
+                  { offset: 1, color: 'rgba(0, 106, 52, 0.02)' },
                 ],
               },
             }

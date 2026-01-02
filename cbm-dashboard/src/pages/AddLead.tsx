@@ -2,90 +2,43 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Send, ArrowLeft, Sparkles } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { Select } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { categories, sources, customerTypes } from '@/constants/categories'
-import type { LeadCategory, LeadSource, CustomerType } from '@/types/lead'
-
-interface FormData {
-  source: LeadSource
-  category: LeadCategory | ''
-  year: string
-  make: string
-  model: string
-  part_type: string
-  part_number: string
-  text: string
-  symptoms: string
-  customer_type: CustomerType
-  quantity: string
-  we_offer_this: string
-}
-
-const initialFormData: FormData = {
-  source: 'manual',
-  category: '',
-  year: '',
-  make: '',
-  model: '',
-  part_type: '',
-  part_number: '',
-  text: '',
-  symptoms: '',
-  customer_type: 'individual',
-  quantity: '1',
-  we_offer_this: '',
-}
 
 export function AddLead() {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState<FormData>(initialFormData)
+  const [text, setText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!text.trim()) return
+
     setIsSubmitting(true)
     setSubmitStatus('idle')
 
     try {
-      // Build the lead object
+      // Build the lead object - only text is required
+      // All other fields will be extracted by Claude API
       const lead = {
-        source: formData.source,
-        category: formData.category || null,
-        year: formData.year ? parseInt(formData.year) : null,
-        make: formData.make || null,
-        model: formData.model || null,
-        part_type: formData.part_type || null,
-        part_number: formData.part_number?.toUpperCase() || null,
-        text: formData.text || null,
-        symptoms: formData.symptoms || null,
-        customer_type: formData.customer_type,
-        quantity: parseInt(formData.quantity) || 1,
-        we_offer_this: formData.we_offer_this === '' ? null : formData.we_offer_this === 'true',
-        confidence: 'medium' as const,
+        text: text.trim(),
+        source: 'manual' as const,
         date: new Date().toISOString().split('T')[0],
       }
 
-      // TODO: Replace with actual Supabase insert
-      // For now, just log and simulate success
-      console.log('Submitting lead:', lead)
+      // TODO: Send to extract-lead Edge Function
+      // The function will:
+      // 1. Call Claude API to extract structured data
+      // 2. Insert the enriched lead into Supabase
+      console.log('Submitting lead for extraction:', lead)
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       setSubmitStatus('success')
-      setFormData(initialFormData)
+      setText('')
 
       // Redirect after success
       setTimeout(() => navigate('/'), 2000)
@@ -107,217 +60,41 @@ export function AddLead() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Add New Lead</h1>
           <p className="text-sm text-muted-foreground">
-            Manually enter lead information for processing
+            Enter lead details and Claude will extract the structured data
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Left Column - Main Info */}
-          <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Board Information</CardTitle>
-              <CardDescription>
-                Enter the raw text or structured information about the board
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="text">Original Text / Description *</Label>
-                <Textarea
-                  id="text"
-                  name="text"
-                  value={formData.text}
-                  onChange={handleChange}
-                  placeholder="e.g., 2015 Ford F-150 PCM, Part# AL3A-12A650-AKB, truck won't start"
-                  rows={4}
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Paste the customer's original message or describe the board
-                </p>
-              </div>
+        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-lg">Lead Details</CardTitle>
+            <CardDescription>
+              Paste the customer message, call notes, or describe the repair request
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="e.g., Joe from Smith Auto called about a 2018 Chevy Silverado TCM, transmission slipping, needs 2 units. They're a repair shop in Dallas."
+              rows={6}
+              required
+              className="text-base"
+            />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span>
+                Claude will automatically extract: category, year, make, model, part type, part number, symptoms, customer type, and quantity
+              </span>
+            </div>
+          </CardContent>
+        </Card>
 
-              <div className="space-y-2">
-                <Label htmlFor="symptoms">Symptoms</Label>
-                <Textarea
-                  id="symptoms"
-                  name="symptoms"
-                  value={formData.symptoms}
-                  onChange={handleChange}
-                  placeholder="e.g., No start condition, check engine light, error code P0700"
-                  rows={3}
-                />
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="source">Source *</Label>
-                  <Select
-                    id="source"
-                    name="source"
-                    value={formData.source}
-                    onChange={handleChange}
-                    required
-                  >
-                    {sources.map((s) => (
-                      <option key={s.value} value={s.value}>
-                        {s.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="customer_type">Customer Type *</Label>
-                  <Select
-                    id="customer_type"
-                    name="customer_type"
-                    value={formData.customer_type}
-                    onChange={handleChange}
-                    required
-                  >
-                    {customerTypes.map((ct) => (
-                      <option key={ct.value} value={ct.value}>
-                        {ct.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Right Column - Structured Data */}
-          <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Structured Data</CardTitle>
-              <CardDescription>
-                Fill in known fields (optional - can be auto-extracted later)
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Select
-                    id="category"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select category...</option>
-                    {categories.map((c) => (
-                      <option key={c.value} value={c.value}>
-                        {c.label}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="year">Year</Label>
-                  <Input
-                    id="year"
-                    name="year"
-                    type="number"
-                    min="1900"
-                    max="2100"
-                    value={formData.year}
-                    onChange={handleChange}
-                    placeholder="e.g., 2015"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="make">Make</Label>
-                  <Input
-                    id="make"
-                    name="make"
-                    value={formData.make}
-                    onChange={handleChange}
-                    placeholder="e.g., Ford, Whirlpool"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="model">Model</Label>
-                  <Input
-                    id="model"
-                    name="model"
-                    value={formData.model}
-                    onChange={handleChange}
-                    placeholder="e.g., F-150, WDT750SAHZ"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="part_type">Part Type</Label>
-                  <Input
-                    id="part_type"
-                    name="part_type"
-                    value={formData.part_type}
-                    onChange={handleChange}
-                    placeholder="e.g., PCM, TCM, control_board"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="part_number">Part Number</Label>
-                  <Input
-                    id="part_number"
-                    name="part_number"
-                    value={formData.part_number}
-                    onChange={handleChange}
-                    placeholder="e.g., AL3A-12A650-AKB"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="quantity">Quantity</Label>
-                  <Input
-                    id="quantity"
-                    name="quantity"
-                    type="number"
-                    min="1"
-                    value={formData.quantity}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="we_offer_this">We Offer This?</Label>
-                  <Select
-                    id="we_offer_this"
-                    name="we_offer_this"
-                    value={formData.we_offer_this}
-                    onChange={handleChange}
-                  >
-                    <option value="">Unknown</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Submit Section */}
         <Card className="mt-6 border-border/50 bg-card/50 backdrop-blur-sm">
           <CardContent className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Sparkles className="h-4 w-4 text-amber-500" />
-              <span>
-                Missing fields will be auto-extracted by Claude during nightly processing
-              </span>
+            <div className="text-sm text-muted-foreground">
+              Lead will be dated today and marked as manually entered
             </div>
 
             <div className="flex items-center gap-3">
@@ -331,16 +108,16 @@ export function AddLead() {
                   Error submitting lead. Please try again.
                 </span>
               )}
-              <Button type="submit" disabled={isSubmitting} size="lg">
+              <Button type="submit" disabled={isSubmitting || !text.trim()} size="lg">
                 {isSubmitting ? (
                   <>
                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    Submitting...
+                    Processing...
                   </>
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    Submit Lead
+                    Add Lead
                   </>
                 )}
               </Button>
