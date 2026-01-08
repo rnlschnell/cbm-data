@@ -10,7 +10,10 @@
       "Bash(npm run build:*)",
       "Bash(npx wrangler pages project create cbm-dashboard --production-branch main)",
       "Bash(git add:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(python tools/extract_lead.py:*)",
+      "Bash(node test-connection.mjs:*)",
+      "Bash(npx wrangler pages deploy:*)"
     ]
   }
 }

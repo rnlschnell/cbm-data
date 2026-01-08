@@ -1,0 +1,302 @@
+{
+  "circuitboardmedics_categories": [
+    {
+      "category_name": "Automotive",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "ABS",
+          "value_citation": "https://circuitboardmedics.com/abs/ \"ABS\""
+        },
+        {
+          "value": "Body Control Modules",
+          "value_citation": "https://circuitboardmedics.com/body-control-module-repairs/ \"Body Control Modules\""
+        },
+        {
+          "value": "Cameras",
+          "value_citation": "https://circuitboardmedics.com/driver-assistance-cameras/ \"Cameras\""
+        },
+        {
+          "value": "Climate Controls",
+          "value_citation": "https://circuitboardmedics.com/climate-control/ \"Climate Controls\""
+        },
+        {
+          "value": "FICM",
+          "value_citation": "https://circuitboardmedics.com/ficm/ \"FICM\""
+        },
+        {
+          "value": "Glow Plug Controller",
+          "value_citation": "https://circuitboardmedics.com/glow-plug-controller/ \"Glow Plug Controller\""
+        },
+        {
+          "value": "Headlights",
+          "value_citation": "https://circuitboardmedics.com/headlights/ \"Headlights\""
+        },
+        {
+          "value": "Instrument Clusters",
+          "value_citation": "https://circuitboardmedics.com/instrument-cluster/ \"Instrument Clusters\""
+        },
+        {
+          "value": "PCM, ECM, ECUs",
+          "value_citation": "https://circuitboardmedics.com/pcm-ecm-ecu-circuit-board-repairs/ \"PCM, ECM, ECUs\""
+        },
+        {
+          "value": "Power Steering",
+          "value_citation": "https://circuitboardmedics.com/power-steering/ \"Power Steering\""
+        },
+        {
+          "value": "Radios",
+          "value_citation": "https://circuitboardmedics.com/radios/ \"Radios\""
+        },
+        {
+          "value": "TCM",
+          "value_citation": "https://circuitboardmedics.com/tcm/ \"TCM\""
+        },
+        {
+          "value": "TIPM",
+          "value_citation": "https://circuitboardmedics.com/tipm/ \"TIPM\""
+        },
+        {
+          "value": "Tail Lights",
+          "value_citation": "https://circuitboardmedics.com/tail-lights/ \"Tail Lights\""
+        },
+        {
+          "value": "Touchscreens",
+          "value_citation": "https://circuitboardmedics.com/touchscreens-and-displays/ \"Touchscreens\""
+        },
+        {
+          "value": "Turbo Actuators",
+          "value_citation": "https://circuitboardmedics.com/actuators/ \"Turbo Actuators\""
+        }
+      ]
+    },
+    {
+      "category_name": "Appliance",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "Dishwasher",
+          "value_citation": "https://circuitboardmedics.com/dishwasher/ \"Dishwasher\""
+        },
+        {
+          "value": "Dryer",
+          "value_citation": "https://circuitboardmedics.com/dryer/ \"Dryer\""
+        },
+        {
+          "value": "Ice Maker",
+          "value_citation": "https://circuitboardmedics.com/ice-maker/ \"Ice Maker\""
+        },
+        {
+          "value": "Oven",
+          "value_citation": "https://circuitboardmedics.com/oven/ \"Oven\""
+        },
+        {
+          "value": "Refrigerator",
+          "value_citation": "https://circuitboardmedics.com/refrigerator/ \"Refrigerator\""
+        },
+        {
+          "value": "Washing Machine",
+          "value_citation": "https://circuitboardmedics.com/washing-machine/ \"Washing Machine\""
+        }
+      ]
+    },
+    {
+      "category_name": "Commercial Vehicles",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "Blue Bird",
+          "value_citation": "https://circuitboardmedics.com/blue-bird-bus/ \"Blue Bird\""
+        },
+        {
+          "value": "Chevrolet",
+          "value_citation": "https://circuitboardmedics.com/chevrolet-commerical-truck-repairs/ \"Chevrolet\""
+        },
+        {
+          "value": "Cummins",
+          "value_citation": "https://circuitboardmedics.com/cummins/ \"Cummins\""
+        },
+        {
+          "value": "Ford",
+          "value_citation": "https://circuitboardmedics.com/ford-commercial-trucks/ \"Ford\""
+        },
+        {
+          "value": "Freightliner",
+          "value_citation": "https://circuitboardmedics.com/freightliner-circuit-board-repairs/ \"Freightliner\""
+        },
+        {
+          "value": "GMC",
+          "value_citation": "https://circuitboardmedics.com/gmc-commerical-truck-repairs/ \"GMC\""
+        },
+        {
+          "value": "International",
+          "value_citation": "https://circuitboardmedics.com/international/ \"International\""
+        },
+        {
+          "value": "Isuzu",
+          "value_citation": "https://circuitboardmedics.com/isuzu-commercial-vehicle-repairs/ \"Isuzu\""
+        },
+        {
+          "value": "Kenworth",
+          "value_citation": "https://circuitboardmedics.com/kenworth/ \"Kenworth\""
+        },
+        {
+          "value": "Mack Trucks",
+          "value_citation": "https://circuitboardmedics.com/mack-trucks/ \"Mack Trucks\""
+        },
+        {
+          "value": "Mopar",
+          "value_citation": "https://circuitboardmedics.com/mopar/ \"Mopar\""
+        },
+        {
+          "value": "PACCAR",
+          "value_citation": "https://circuitboardmedics.com/paccar/ \"PACCAR\""
+        },
+        {
+          "value": "Peterbilt",
+          "value_citation": "https://circuitboardmedics.com/peterbilt/ \"Peterbilt\""
+        },
+        {
+          "value": "Sterling Trucks",
+          "value_citation": "https://circuitboardmedics.com/sterling-trucks-instrument-cluster-repair/ \"Sterling Trucks\""
+        },
+        {
+          "value": "Volvo Trucks",
+          "value_citation": "https://circuitboardmedics.com/volvo-commercial-trucks/ \"Volvo Trucks\""
+        }
+      ]
+    },
+    {
+      "category_name": "Construction Equipment",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "Case Construction",
+          "value_citation": "https://circuitboardmedics.com/case-construction-circuit-board-repair/ \"Case Construction\""
+        },
+        {
+          "value": "Caterpillar",
+          "value_citation": "https://circuitboardmedics.com/caterpillar-circuit-board-repair/ \"Caterpillar\""
+        },
+        {
+          "value": "Denyo",
+          "value_citation": "https://circuitboardmedics.com/denyo-circuit-board-repair/ \"Denyo\""
+        },
+        {
+          "value": "Hitachi",
+          "value_citation": "https://circuitboardmedics.com/hitachi-circuit-board-repair/ \"Hitachi\""
+        },
+        {
+          "value": "JCB",
+          "value_citation": "https://circuitboardmedics.com/jcb-circuit-board-repair/ \"JCB\""
+        },
+        {
+          "value": "John Deere",
+          "value_citation": "https://circuitboardmedics.com/john-deere-circuit-board-repair/ \"John Deere\""
+        },
+        {
+          "value": "Komatsu",
+          "value_citation": "https://circuitboardmedics.com/komatsu-circuit-board-repair/ \"Komatsu\""
+        },
+        {
+          "value": "Link-Belt",
+          "value_citation": "https://circuitboardmedics.com/link-belt-circuit-board-repair/ \"Link-Belt\""
+        },
+        {
+          "value": "Volvo",
+          "value_citation": "https://circuitboardmedics.com/volvo-tractor/ \"Volvo\""
+        }
+      ]
+    },
+    {
+      "category_name": "Industrial",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "BilJax",
+          "value_citation": "https://circuitboardmedics.com/biljax-circuit-board-repair/ \"BilJax\""
+        },
+        {
+          "value": "FS-Curtis",
+          "value_citation": "https://circuitboardmedics.com/fs-curtis-circuit-board-repair/ \"FS-Curtis\""
+        },
+        {
+          "value": "First Solar",
+          "value_citation": "https://circuitboardmedics.com/first-solar-circuit-board-repair/ \"First Solar\""
+        },
+        {
+          "value": "Ingersoll Rand",
+          "value_citation": "https://circuitboardmedics.com/ingersoll-rand-circuit-board-repair/ \"Ingersoll Rand\""
+        },
+        {
+          "value": "Trane",
+          "value_citation": "https://circuitboardmedics.com/trane-circuit-board-repair/ \"Trane\""
+        }
+      ]
+    },
+    {
+      "category_name": "Agriculture",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "AGCO",
+          "value_citation": "https://circuitboardmedics.com/agco-gauge-cluster-repairs/ \"AGCO\""
+        },
+        {
+          "value": "John Deere",
+          "value_citation": "https://circuitboardmedics.com/john-deere-tractors/ \"John Deere\""
+        },
+        {
+          "value": "Massey Ferguson",
+          "value_citation": "https://circuitboardmedics.com/massey-ferguson/ \"Massey Ferguson\""
+        },
+        {
+          "value": "New Holland",
+          "value_citation": "https://circuitboardmedics.com/new-holland-tractors/ \"New Holland\""
+        },
+        {
+          "value": "Workhorse",
+          "value_citation": "https://circuitboardmedics.com/workhorse-actia/ \"Workhorse\""
+        }
+      ]
+    },
+    {
+      "category_name": "Motorcycle",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "BMW",
+          "value_citation": "https://circuitboardmedics.com/bmw-motorcycle-circuit-board-repair/ \"BMW\""
+        },
+        {
+          "value": "Yamaha",
+          "value_citation": "https://circuitboardmedics.com/yamaha-motorcycle-circuit-board-repair/ \"Yamaha\""
+        }
+      ]
+    },
+    {
+      "category_name": "ATV | RTV | UTV",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "Can-Am",
+          "value_citation": "https://circuitboardmedics.com/can-am/ \"Can-Am\""
+        },
+        {
+          "value": "Polaris",
+          "value_citation": "https://circuitboardmedics.com/polaris/ \"Polaris\""
+        }
+      ]
+    },
+    {
+      "category_name": "Motorhome | RV",
+      "category_name_citation": "https://circuitboardmedics.com",
+      "part_types": [
+        {
+          "value": "Ford",
+          "value_citation": "https://circuitboardmedics.com/ford-rv-circuit-board-repair/ \"Ford\""
+        }
+      ]
+    }
+  ]
+}

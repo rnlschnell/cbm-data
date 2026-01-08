@@ -306,3 +306,47 @@ export function getWordCloudData(field: 'symptoms' | 'make' | 'part_type') {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value)
 }
+
+export interface TopRequest {
+  category: LeadCategory | null
+  make: string | null
+  model: string | null
+  part_type: string | null
+  count: number
+  weOfferCount: number
+  dontOfferCount: number
+}
+
+export function getTopRequests(filterCategory?: LeadCategory | 'all'): TopRequest[] {
+  const map = new Map<string, TopRequest>()
+
+  for (const lead of mockLeads) {
+    if (filterCategory && filterCategory !== 'all' && lead.category !== filterCategory) {
+      continue
+    }
+
+    const key = `${lead.category}|${lead.make}|${lead.model}|${lead.part_type}`
+
+    if (!map.has(key)) {
+      map.set(key, {
+        category: lead.category,
+        make: lead.make,
+        model: lead.model,
+        part_type: lead.part_type,
+        count: 0,
+        weOfferCount: 0,
+        dontOfferCount: 0,
+      })
+    }
+
+    const entry = map.get(key)!
+    entry.count++
+    if (lead.we_offer_this === true) {
+      entry.weOfferCount++
+    } else if (lead.we_offer_this === false) {
+      entry.dontOfferCount++
+    }
+  }
+
+  return Array.from(map.values()).sort((a, b) => b.count - a.count)
+}
