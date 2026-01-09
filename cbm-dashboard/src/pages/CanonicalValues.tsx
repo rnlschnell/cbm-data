@@ -24,11 +24,14 @@ const CATEGORIES: { value: CanonicalCategory; label: string }[] = [
 
 export function CanonicalValues() {
   const [values, setValues] = useState<CanonicalValue[]>([])
-  const [loading, setLoading] = useState(true)
+  const [initialLoading, setInitialLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<CanonicalValueType>('make')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Track which category sections are expanded (persists across data reloads)
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
   // New value form state
   const [newName, setNewName] = useState('')
@@ -41,11 +44,23 @@ export function CanonicalValues() {
   }, [])
 
   async function loadValues() {
-    setLoading(true)
+    // Only show loading spinner on initial load, not on subsequent refreshes
     const data = await fetchCanonicalValues()
     setValues(data)
-    setLoading(false)
+    setInitialLoading(false)
   }
+
+  const toggleCategory = useCallback((categoryKey: string) => {
+    setExpandedCategories(prev => {
+      const next = new Set(prev)
+      if (next.has(categoryKey)) {
+        next.delete(categoryKey)
+      } else {
+        next.add(categoryKey)
+      }
+      return next
+    })
+  }, [])
 
   // Memoize filtered values to prevent recalculation on every render
   const filteredValues = useMemo(() => {
@@ -299,7 +314,7 @@ export function CanonicalValues() {
               </div>
             </CardHeader>
             <CardContent>
-              {loading ? (
+              {initialLoading ? (
                 <div className="flex items-center justify-center py-8">
                   <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                 </div>
@@ -316,16 +331,19 @@ export function CanonicalValues() {
                   {CATEGORIES.map((category) => {
                     const categoryValues = filteredValues.filter((v) => v.category === category.value)
                     if (categoryValues.length === 0) return null
+                    const categoryKey = `${activeTab}-${category.value}`
 
                     return (
                       <CategorySection
-                        key={category.value}
+                        key={categoryKey}
                         category={category}
                         values={categoryValues}
                         onUpdateAliases={handleUpdateAliases}
                         onDelete={handleDelete}
                         onUpdateCategory={handleUpdateCategory}
                         activeTab={activeTab}
+                        isExpanded={expandedCategories.has(categoryKey)}
+                        onToggle={() => toggleCategory(categoryKey)}
                       />
                     )
                   })}
@@ -339,6 +357,8 @@ export function CanonicalValues() {
                       onDelete={handleDelete}
                       onUpdateCategory={handleUpdateCategory}
                       activeTab={activeTab}
+                      isExpanded={expandedCategories.has(`${activeTab}-uncategorized`)}
+                      onToggle={() => toggleCategory(`${activeTab}-uncategorized`)}
                     />
                   )}
                 </div>
@@ -358,6 +378,8 @@ interface CategorySectionProps {
   onDelete: (id: string, name: string) => void
   onUpdateCategory: (id: string, category: CanonicalCategory) => void
   activeTab: CanonicalValueType
+  isExpanded: boolean
+  onToggle: () => void
 }
 
 const CategorySection = memo(function CategorySection({
@@ -367,13 +389,13 @@ const CategorySection = memo(function CategorySection({
   onDelete,
   onUpdateCategory,
   activeTab,
+  isExpanded,
+  onToggle,
 }: CategorySectionProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
-
   return (
     <div className="rounded-lg border border-border/50">
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={onToggle}
         className="flex w-full items-center justify-between p-3 text-left hover:bg-muted/50"
       >
         <span className="font-medium">
