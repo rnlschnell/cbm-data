@@ -1,12 +1,14 @@
 import { useMemo, useState } from 'react'
+import { Loader2, CheckCircle2, XCircle, TrendingUp } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { PageHeader } from '@/components/layout/PageHeader'
-import { getTopRequests, type TopRequest } from '@/data/mockLeads'
+import { YearRangeFilter } from '@/components/filters/YearRangeFilter'
+import { useLeadsData, type TopRequest } from '@/hooks/useLeadsData'
 import { categoryColors } from '@/constants/colors'
 import type { LeadCategory } from '@/types/lead'
-import { CheckCircle2, XCircle, TrendingUp } from 'lucide-react'
+import type { YearRange } from '@/types/filters'
 
 function RequestRow({ request, rank }: { request: TopRequest; rank: number }) {
   const offerRate = request.count > 0 ? Math.round((request.weOfferCount / request.count) * 100) : 0
@@ -61,23 +63,47 @@ function RequestRow({ request, rank }: { request: TopRequest; rank: number }) {
 }
 
 export function TopRequests() {
+  const [yearRange, setYearRange] = useState<YearRange>({ start: null, end: null })
   const [category, setCategory] = useState<LeadCategory | 'all'>('all')
 
-  const data = useMemo(() => getTopRequests(category), [category])
+  const { getTopRequests, isLoading, error } = useLeadsData({
+    yearStart: yearRange.start ?? undefined,
+    yearEnd: yearRange.end ?? undefined,
+  })
+
+  const data = useMemo(() => getTopRequests(category), [getTopRequests, category])
 
   const stats = useMemo(() => {
-    const total = data.reduce((sum, r) => sum + r.count, 0)
-    const covered = data.reduce((sum, r) => sum + r.weOfferCount, 0)
-    const uncovered = data.reduce((sum, r) => sum + r.dontOfferCount, 0)
+    const total = data.reduce((sum: number, r: TopRequest) => sum + r.count, 0)
+    const covered = data.reduce((sum: number, r: TopRequest) => sum + r.weOfferCount, 0)
+    const uncovered = data.reduce((sum: number, r: TopRequest) => sum + r.dontOfferCount, 0)
     return { total, covered, uncovered, coverageRate: total > 0 ? Math.round((covered / total) * 100) : 0 }
   }, [data])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-96 flex-col items-center justify-center gap-4">
+        <p className="text-destructive">Error loading data: {error.message}</p>
+      </div>
+    )
+  }
 
   return (
     <div>
       <PageHeader
         title="Top Requests"
         description="Exact products and services customers are asking about most"
-      />
+      >
+        <YearRangeFilter value={yearRange} onChange={setYearRange} />
+      </PageHeader>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <Card>
@@ -118,7 +144,7 @@ export function TopRequests() {
             </CardHeader>
             <CardContent>
               <div className="space-y-0">
-                {data.slice(0, 50).map((request, i) => (
+                {data.slice(0, 50).map((request: TopRequest, i: number) => (
                   <RequestRow
                     key={`${request.category}-${request.make}-${request.model}-${request.part_type}`}
                     request={request}

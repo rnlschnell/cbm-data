@@ -1,17 +1,27 @@
-import { useMemo } from 'react'
+import { useState, useMemo } from 'react'
+import { Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { HeatmapChart } from '@/components/charts/HeatmapChart'
-import { mockLeads } from '@/data/mockLeads'
+import { YearRangeFilter } from '@/components/filters/YearRangeFilter'
+import { useLeadsData } from '@/hooks/useLeadsData'
+import type { YearRange } from '@/types/filters'
 
 export function HeatmapView() {
+  const [yearRange, setYearRange] = useState<YearRange>({ start: null, end: null })
+
+  const { leads, isLoading, error } = useLeadsData({
+    yearStart: yearRange.start ?? undefined,
+    yearEnd: yearRange.end ?? undefined,
+  })
+
   const makePartTypeData = useMemo(() => {
     const matrix: Record<string, Record<string, number>> = {}
     const makes = new Set<string>()
     const partTypes = new Set<string>()
 
-    mockLeads.forEach((lead) => {
+    leads.forEach((lead: { make: string | null; part_type: string | null }) => {
       if (lead.make && lead.part_type) {
         makes.add(lead.make)
         partTypes.add(lead.part_type)
@@ -35,7 +45,7 @@ export function HeatmapView() {
     })
 
     return { data, xLabels: topPartTypes, yLabels: topMakes }
-  }, [])
+  }, [leads])
 
   const sourceMonthData = useMemo(() => {
     const matrix: Record<string, Record<string, number>> = {}
@@ -44,10 +54,13 @@ export function HeatmapView() {
 
     sources.forEach((s) => (matrix[s] = {}))
 
-    mockLeads.forEach((lead) => {
+    leads.forEach((lead: { date: string; source: string }) => {
+      if (!lead.date || !lead.source || !matrix[lead.source]) return
       const month = new Date(lead.date).getMonth()
       const monthName = months[month]
-      matrix[lead.source][monthName] = (matrix[lead.source][monthName] || 0) + 1
+      if (monthName) {
+        matrix[lead.source][monthName] = (matrix[lead.source][monthName] || 0) + 1
+      }
     })
 
     const data: { x: string; y: string; value: number }[] = []
@@ -66,7 +79,7 @@ export function HeatmapView() {
       xLabels: months,
       yLabels: sources.map((s) => s.charAt(0).toUpperCase() + s.slice(1)),
     }
-  }, [])
+  }, [leads])
 
   const categoryCustomerData = useMemo(() => {
     const matrix: Record<string, Record<string, number>> = {}
@@ -75,7 +88,7 @@ export function HeatmapView() {
 
     categories.forEach((c) => (matrix[c] = {}))
 
-    mockLeads.forEach((lead) => {
+    leads.forEach((lead: { category: string | null; customer_type: string }) => {
       if (lead.category) {
         matrix[lead.category][lead.customer_type] =
           (matrix[lead.category][lead.customer_type] || 0) + 1
@@ -98,14 +111,29 @@ export function HeatmapView() {
       xLabels: customerTypes.map((c) => c.charAt(0).toUpperCase() + c.slice(1)),
       yLabels: categories.map((c) => c.charAt(0).toUpperCase() + c.slice(1)),
     }
-  }, [])
+  }, [leads])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-96 flex-col items-center justify-center gap-4">
+        <p className="text-destructive">Error loading data: {error.message}</p>
+      </div>
+    )
+  }
 
   return (
     <div>
-      <PageHeader
-        title="Heatmap Analysis"
-        description="Visualize lead density across different dimensions"
-      />
+      <PageHeader title="Heatmap Analysis" description="Visualize lead density across different dimensions">
+        <YearRangeFilter value={yearRange} onChange={setYearRange} />
+      </PageHeader>
 
       <Tabs defaultValue="make-part" className="w-full">
         <TabsList className="mb-6">

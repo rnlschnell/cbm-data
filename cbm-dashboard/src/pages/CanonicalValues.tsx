@@ -139,6 +139,16 @@ export function CanonicalValues() {
     }
   }, [])
 
+  const handleUpdateName = useCallback(async (id: string, name: string) => {
+    const result = await updateCanonicalValue(id, { name })
+    if (result.success) {
+      loadValues()
+    } else {
+      setMessage({ type: 'error', text: result.error || 'Failed to update name' })
+    }
+    return result.success
+  }, [])
+
   const getTabLabel = useCallback((type: CanonicalValueType) => {
     const count = values.filter((v) => v.type === type).length
     switch (type) {
@@ -339,6 +349,7 @@ export function CanonicalValues() {
                         category={category}
                         values={categoryValues}
                         onUpdateAliases={handleUpdateAliases}
+                        onUpdateName={handleUpdateName}
                         onDelete={handleDelete}
                         onUpdateCategory={handleUpdateCategory}
                         activeTab={activeTab}
@@ -354,6 +365,7 @@ export function CanonicalValues() {
                       category={{ value: 'automotive' as CanonicalCategory, label: 'Uncategorized' }}
                       values={filteredValues.filter((v) => !v.category)}
                       onUpdateAliases={handleUpdateAliases}
+                      onUpdateName={handleUpdateName}
                       onDelete={handleDelete}
                       onUpdateCategory={handleUpdateCategory}
                       activeTab={activeTab}
@@ -375,6 +387,7 @@ interface CategorySectionProps {
   category: { value: CanonicalCategory; label: string }
   values: CanonicalValue[]
   onUpdateAliases: (id: string, aliases: string[]) => void
+  onUpdateName: (id: string, name: string) => Promise<boolean>
   onDelete: (id: string, name: string) => void
   onUpdateCategory: (id: string, category: CanonicalCategory) => void
   activeTab: CanonicalValueType
@@ -386,6 +399,7 @@ const CategorySection = memo(function CategorySection({
   category,
   values,
   onUpdateAliases,
+  onUpdateName,
   onDelete,
   onUpdateCategory,
   activeTab,
@@ -415,6 +429,7 @@ const CategorySection = memo(function CategorySection({
               key={value.id}
               value={value}
               onUpdateAliases={onUpdateAliases}
+              onUpdateName={onUpdateName}
               onDelete={onDelete}
               onUpdateCategory={onUpdateCategory}
               activeTab={activeTab}
@@ -429,14 +444,17 @@ const CategorySection = memo(function CategorySection({
 interface ValueRowProps {
   value: CanonicalValue
   onUpdateAliases: (id: string, aliases: string[]) => void
+  onUpdateName: (id: string, name: string) => Promise<boolean>
   onDelete: (id: string, name: string) => void
   onUpdateCategory: (id: string, category: CanonicalCategory) => void
   activeTab: CanonicalValueType
 }
 
-const ValueRow = memo(function ValueRow({ value, onUpdateAliases, onDelete }: ValueRowProps) {
+const ValueRow = memo(function ValueRow({ value, onUpdateAliases, onUpdateName, onDelete }: ValueRowProps) {
   const [isAddingAlias, setIsAddingAlias] = useState(false)
   const [newAlias, setNewAlias] = useState('')
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [editedName, setEditedName] = useState(value.name)
 
   const handleAddAlias = useCallback(() => {
     if (!newAlias.trim()) return
@@ -452,10 +470,72 @@ const ValueRow = memo(function ValueRow({ value, onUpdateAliases, onDelete }: Va
     )
   }, [onUpdateAliases, value.id, value.aliases])
 
+  const handleSaveName = useCallback(async () => {
+    if (!editedName.trim() || editedName.trim() === value.name) {
+      setEditedName(value.name)
+      setIsEditingName(false)
+      return
+    }
+    const success = await onUpdateName(value.id, editedName.trim())
+    if (success) {
+      setIsEditingName(false)
+    } else {
+      setEditedName(value.name)
+    }
+  }, [editedName, onUpdateName, value.id, value.name])
+
+  const handleCancelEdit = useCallback(() => {
+    setEditedName(value.name)
+    setIsEditingName(false)
+  }, [value.name])
+
   return (
     <div className="flex items-center justify-between gap-3 rounded-md bg-muted/30 p-3">
       <div className="flex flex-1 flex-wrap items-center gap-2">
-        <span className="font-medium">{value.name}</span>
+        {isEditingName ? (
+          <div className="flex items-center gap-1">
+            <Input
+              autoFocus
+              className="h-7 w-40 text-sm font-medium"
+              value={editedName}
+              onChange={(e) => setEditedName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveName()
+                if (e.key === 'Escape') handleCancelEdit()
+              }}
+            />
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleSaveName()
+              }}
+            >
+              <Save className="h-3 w-3" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleCancelEdit()
+              }}
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          </div>
+        ) : (
+          <span
+            className="cursor-pointer font-medium hover:text-primary hover:underline"
+            onClick={() => setIsEditingName(true)}
+            title="Click to edit"
+          >
+            {value.name}
+          </span>
+        )}
 
         {value.parent_value && (
           <Badge variant="outline" className="text-xs">

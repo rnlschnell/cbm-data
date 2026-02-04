@@ -9,13 +9,22 @@ interface HeatmapChartProps {
 }
 
 export function HeatmapChart({ data, xLabels, yLabels, height = 400 }: HeatmapChartProps) {
+  // Handle empty data case
+  if (!data.length || !xLabels.length || !yLabels.length) {
+    return (
+      <div className="flex items-center justify-center text-muted-foreground" style={{ height }}>
+        No data available for heatmap
+      </div>
+    )
+  }
+
   const heatmapData = data.map((item) => [
     xLabels.indexOf(item.x),
     yLabels.indexOf(item.y),
     item.value,
   ])
 
-  const maxValue = Math.max(...data.map((d) => d.value))
+  const maxValue = Math.max(...data.map((d) => d.value), 1)
 
   const option: EChartsOption = {
     tooltip: {

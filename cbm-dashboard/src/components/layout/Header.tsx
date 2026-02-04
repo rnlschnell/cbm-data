@@ -26,12 +26,16 @@ export function Header({ onMenuClick }: HeaderProps) {
             </div>
           </div>
           <div className="hidden sm:block">
-            <h1 className="font-display text-lg font-bold tracking-tight">
-              <span className="gradient-text">CBM</span>
-              <span className="text-foreground"> LEADS</span>
-            </h1>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              Intelligence Platform
+            <div className="flex items-baseline gap-2">
+              <h1 className="font-display text-lg font-bold tracking-tight">
+                <span className="gradient-text">AGGREGATOR</span>
+              </h1>
+              <span className="text-[10px] text-muted-foreground hidden lg:inline">
+                Analytics Gateway for Growth, Repair Entity Generation, Acquisition, Tracking & Opportunity Recognition
+              </span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              <span className="text-primary font-semibold">AGGIE</span> for short — Automated Gap & Growth Insight Engine
             </p>
           </div>
         </div>

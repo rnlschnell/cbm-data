@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-CBM Leads Intelligence Platform - a data aggregation system for Circuit Board Medics to analyze repair request leads from multiple sources (phone, form, chat, scrape, manual). The platform normalizes unstructured data, identifies service gaps, and provides analytics.
+**Project C.A.P.A.C.I.T.O.R** - Customer Analytics Platform for Automated Category Insights & Trend Opportunity Reports
+
+Also known as **"Aggie"**:
+- **AGGIE** - Automated Gap & Growth Insight Engine
+- **AGGREGATOR** - Analytics Gateway for Growth, Repair Entity Generation, Acquisition, Tracking & Opportunity Recognition
+
+A data aggregation system for Circuit Board Medics to analyze repair request leads from multiple sources (phone, form, chat, scrape, manual). The platform normalizes unstructured data, identifies service gaps, and provides analytics.
 
 ## Commands
 
