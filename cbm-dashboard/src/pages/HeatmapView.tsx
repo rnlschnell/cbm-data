@@ -90,8 +90,15 @@ export function HeatmapView() {
 
     leads.forEach((lead: { category: string | null; customer_type: string }) => {
       if (lead.category) {
-        matrix[lead.category][lead.customer_type] =
-          (matrix[lead.category][lead.customer_type] || 0) + 1
+        // Normalize to lowercase to handle case variations in database
+        const normalizedCategory = lead.category.toLowerCase()
+        const normalizedCustomerType = lead.customer_type.toLowerCase()
+
+        // Only count if category is in our predefined list
+        if (matrix[normalizedCategory]) {
+          matrix[normalizedCategory][normalizedCustomerType] =
+            (matrix[normalizedCategory][normalizedCustomerType] || 0) + 1
+        }
       }
     })
 
